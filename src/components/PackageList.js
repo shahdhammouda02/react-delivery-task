@@ -1,47 +1,53 @@
-import React,{useState} from 'react';
+import React ,{useState} from 'react';
 import {Link} from 'react-router-dom';
 import {TableContainer, Paper, Table,TableHead,TableRow,TableCell,TableBody,
-  IconButton, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField
+  IconButton, Button
 } from '@mui/material';  
 import AddIcon from '@mui/icons-material/Add';
 // import AddPackage from './AddPackage';
-// import { useCustomerContext } from './CustomerContext';
+import { CustomerContextProvider, useCustomerContext } from './CustomerContext';
 
-const PackageList = ({ packages }) => {  
+const PackageList = () => { 
+  const {appData}=useCustomerContext(); 
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [newPackage, setNewPackage] = useState({
+  //   id: '',
+  //   weight: '',
+  //   customerid: '',
+  //   price: '',
+  //   shippingOrder: '',
+  // });
+
+  // const toggleModal = () => {
+  //   setIsModalOpen(!isModalOpen);
+  // };
+
+  // const handleAddPackage = () => {
+  //   const updatedPackages = [...packages, newPackage];
+  //   const sortedByShippingOrder = updatedPackages.sort((a, b) => a.shippingOrder - b.shippingOrder);
+    
+  //   setNewPackage({
+  //     id: '',
+  //     weight: '',
+  //     customerid: '',
+  //     price: '',
+  //     shippingOrder: '',
+  //   });
+    
+  //   setIsModalOpen(false);
+  //   console.log(sortedByShippingOrder);
+  // };
+
+  const {handleAddPackage } = useCustomerContext();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newPackage, setNewPackage] = useState({
-    id: '',
-    weight: '',
-    customerid: '',
-    price: '',
-    shippingOrder: '',
-  });
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleAddPackage = () => {
-    const updatedPackages = [...packages, newPackage];
-    const sortedByShippingOrder = updatedPackages.sort((a, b) => a.shippingOrder - b.shippingOrder);
-    
-    setNewPackage({
-      id: '',
-      weight: '',
-      customerid: '',
-      price: '',
-      shippingOrder: '',
-    });
-    
-    setIsModalOpen(false);
-    console.log(sortedByShippingOrder);
-  };
-
-  // const { isModalOpen, toggleModal,handleAddPackage } = useCustomerContext();
-  
-
-
   return (
+    <CustomerContextProvider>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table"> 
         <TableHead>
@@ -64,7 +70,7 @@ const PackageList = ({ packages }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {packages.map((row) => (
+          {appData.packages.map((row) => (
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               key={row.id}
@@ -92,7 +98,7 @@ const PackageList = ({ packages }) => {
 <IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={toggleModal}>
         <AddIcon />
       </IconButton>
-      <Dialog open={isModalOpen} onClose={toggleModal}>
+      {/* <Dialog open={isModalOpen} onClose={toggleModal}>
         <DialogTitle>Add New Package</DialogTitle>
         <DialogContent>
           <TextField
@@ -136,9 +142,9 @@ const PackageList = ({ packages }) => {
             Add Package
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </TableContainer>
-    
+    </CustomerContextProvider>
   );
 };
 

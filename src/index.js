@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+// import { CustomerContextProvider } from '../src/components/CustomerContext';
+
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+        {/* <CustomerContextProvider> */}
+
     <App />
+    {/* </CustomerContextProvider> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

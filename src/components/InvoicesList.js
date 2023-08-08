@@ -6,53 +6,44 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import Paper from '@mui/material/Paper';
-// import { useCustomerContext } from '../App';
+import { useCustomerContext } from './CustomerContext';
+import { useEffect, useState } from 'react';
 
+const InvoiceList = () => {
+  const [invoices, setInvoices] = useState([]);
+  const { getInvoiceList } = useCustomerContext();
 
+  useEffect(() => {
+    const fetchInvoices = async () => {
+      const invoiceListWithTotals = await getInvoiceList();
+      setInvoices(invoiceListWithTotals);
+    };
 
-const InvoiceList = ({ invoices }) => {
+    fetchInvoices();
+  }, [getInvoiceList]);
 
   return (
     <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Customer Name</TableCell>
-              <TableCell>Total Price</TableCell>
-              <TableCell>Total Weight</TableCell>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Customer Name</TableCell>
+            <TableCell>Total Price</TableCell>
+            <TableCell>Total Weight</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {invoices.map((invoice, index) => (
+            <TableRow key={index}>
+              <TableCell>{invoice.customer_name}</TableCell>
+              <TableCell>{invoice.totalpkgPrice}</TableCell>
+              <TableCell>{invoice.totalpkgWeight.toFixed(2)} kg</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {invoices.map((invoice, index) => {
-              const totalPrice = invoice.packages.reduce((total, pkg) => total + pkg.price, 0);
-              const totalWeight = invoice.packages.reduce((total, pkg) => total + parseFloat(pkg.weight), 0);
-
-              return (
-                <TableRow key={index}>
-                  <TableCell>{invoice.customer_name}</TableCell>
-                  <TableCell>{totalPrice}</TableCell>
-                  <TableCell>{totalWeight} kg</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
 export default InvoiceList;
-
-      {/* <h2>Invoice List</h2>
-      {invoices.map((invoice, index) => {
-
-        const totalPrice = invoice.packages.reduce((total, pkg) => total + pkg.price, 0);
-        const totalWeight=invoice.packages.reduce((total,pkg)=>total+ parseFloat(pkg.weight),0)
-          return (
-          <div key={index}>
-            <h3>Customer Name: {invoice.customer_name}</h3>
-            <p>Total Price: {totalPrice}</p>
-            <p>Total Weight: {totalWeight} kg</p>
-          </div>
-        );
-      })} */}

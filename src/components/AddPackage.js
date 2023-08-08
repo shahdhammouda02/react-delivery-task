@@ -1,13 +1,24 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import {IconButton, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField 
 } from '@mui/material';  
 import AddIcon from '@mui/icons-material/Add';
 
-import { useCustomerContext } from './CustomerContext';
+import { CustomerContextProvider, useCustomerContext } from './CustomerContext';
 
 const AddPackage = () => {
-    const { isModalOpen, toggleModal, newPackage, setNewPackage, handleAddPackage } = useCustomerContext();
-  return (
+    const {handleAddPackage } = useCustomerContext();
+    const [newPackage, setNewPackage] = useState({
+      id: '',
+      weight: '',
+      customerid: '',
+      price: '',
+      shippingOrder: '',
+    });
+   
+   
+  
+    return (
+    <CustomerContextProvider>
     <div>
       <IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={toggleModal}>
         <AddIcon />
@@ -58,6 +69,7 @@ const AddPackage = () => {
         </DialogActions>
       </Dialog>
     </div>
+    </CustomerContextProvider>
   )
 }
 

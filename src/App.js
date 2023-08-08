@@ -31,59 +31,61 @@ import './App.css';
 //   );
 // };
 function App() {
-  const [appData, setAppData] = useState({ customers: [], packages: [], invoice: [] });
-  const [invoices, setInvoices] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [customerData, setCustomerData]=useState({});
-  const [packageData, setPackageData]=useState({});
+  // console.log(data);
+//   const [appData, setAppData] = useState({ customers: [], packages: [], invoice: [] });
+//   const [invoices, setInvoices] = useState([]);
+//   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+//   const [customerData, setCustomerData]=useState({});
+//   const [packageData, setPackageData]=useState({});
 
 
-  useEffect(() => {
-  fetch('/data.json')
-    .then(response => response.json())
-    .then((data) => {
-      setAppData(data);
-      // setInvoices(data);
+//   useEffect(() => {
+//   fetch('/data.json')
+//     .then(response => response.json())
+//     .then((data) => {
+//       setAppData(data);
+//       // setInvoices(data);
 
-      const customerDataObj = {};
-      data.customers.forEach(item => {
-        customerDataObj[item.id] = item.name;
-      });
-      setCustomerData(customerDataObj);
+//       const customerDataObj = {};
+//       data.customers.forEach(item => {
+//         customerDataObj[item.id] = item.name;
+//       });
+//       setCustomerData(customerDataObj);
 
-      const packageDataObj = {};
-      data.packages.forEach(item => {
-        const customerName = customerDataObj[item.customerid];
-        packageDataObj[item.id] = {
-          ...item,
-          customerName: customerName || 'not Found',
-        };
-      });
-      setPackageData(packageDataObj);
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-}, []);
+//       const packageDataObj = {};
+//       data.packages.forEach(item => {
+//         const customerName = customerDataObj[item.customerid];
+//         packageDataObj[item.id] = {
+//           ...item,
+//           customerName: customerName || 'not Found',
+//         };
+//       });
+//       setPackageData(packageDataObj);
+//     })
+//     .catch(error => {
+//       console.error('Error fetching data:', error);
+//     });
+// }, []);
 
   // console.log(appData.customers);
   // console.log(appData.packages)
 
-  const deleteCustomer=(customer_id)=>{
-    const updated=appData.customers.filter(customer=> customer.id !==customer_id);
-    setAppData({...appData, customers: updated});
-  }
+  // const deleteCustomer=(customer_id)=>{
+  //   const updated=appData.customers.filter(customer=> customer.id !==customer_id);
+  //   setAppData({...appData, customers: updated});
+  // }
 
-  const handleCreateInvoice = (customer_id) => {
-    const customer =appData.customers.find((c) => c.id === customer_id);
-    const customerPackages =appData.packages.filter((pkg) => pkg.customerid === customer_id);
+  // const handleCreateInvoice = (customer_id) => {
+  //   const customer =appData.customers.find((c) => c.id === customer_id);
+  //   const customerPackages =appData.packages.filter((pkg) => pkg.customerid === customer_id);
    
-    const invoice = {
-      customer_name: customer.name,
-      packages: customerPackages,
-    };
-    setInvoices([...invoices, invoice]);
-  };
+  //   const invoice = {
+  //     customer_name: customer.name,
+  //     packages: customerPackages,
+  //   };
+  //   setInvoices([...invoices, invoice]);
+  // };
 
 
   return (
@@ -112,25 +114,25 @@ function App() {
         <Switch>
         <Route exact path="/"></Route>
           <Route path="/customers">
-          <CustomerContextProvider customers={appData.customers}>
-              <CustomerList customers={appData.customers} 
-              onDeleteCustomer={deleteCustomer} onCreateInvoice={handleCreateInvoice} />
-            </CustomerContextProvider>
+          {/* <CustomerContextProvider customers={appData.customers}> */}
+              <CustomerList 
+              />
+            {/* </CustomerContextProvider> */}
           </Route>
           <Route path="/packages">
-            <CustomerContextProvider packages={appData.packages}>
-            <PackageList packages={appData.packages} />
-            </CustomerContextProvider>
+            {/* <CustomerContextProvider packages={appData.packages}> */}
+            <PackageList  />
+            {/* </CustomerContextProvider> */}
           </Route>
           <Route path="/invoices">
-            <CustomerContextProvider invoices={invoices}>
-            <InvoiceList invoices={invoices} />
-            </CustomerContextProvider>
+            {/* <CustomerContextProvider > */}
+            <InvoiceList/>
+            {/* </CustomerContextProvider> */}
           </Route>
-        <Route path="/invoice/:customer_id/:package_id">
-          <CustomerContextProvider customers={appData.customers} packages={appData.packages}>
-               <Invoice  />
-            </CustomerContextProvider>
+        <Route path="/invoice/:customer_id">
+          {/* <CustomerContextProvider customers={appData.customers} packages={appData.packages}> */}
+               <Invoice />
+            {/* </CustomerContextProvider> */}
         </Route>
         
         </Switch>
