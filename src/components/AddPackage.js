@@ -1,11 +1,10 @@
-import React,{useContext} from 'react'
+import React, { useState } from 'react'
 import {IconButton, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField 
 } from '@mui/material';  
-import AddIcon from '@mui/icons-material/Add';
 
-import { CustomerContextProvider, useCustomerContext } from './CustomerContext';
+import {useCustomerContext } from './CustomerContext';
 
-const AddPackage = () => {
+const AddPackage = ({setIsModalOpen, isModalOpen}) => {
     const {handleAddPackage } = useCustomerContext();
     const [newPackage, setNewPackage] = useState({
       id: '',
@@ -14,16 +13,27 @@ const AddPackage = () => {
       price: '',
       shippingOrder: '',
     });
-   
-   
-  
+
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+
+    const addPackage = () => {
+      handleAddPackage(newPackage);
+      setNewPackage({
+        id: '',
+        weight: '',
+        customerid: '',
+        price: '',
+        shippingOrder: '',
+      }); 
+      closeModal(); 
+    };
+
     return (
-    <CustomerContextProvider>
     <div>
-      <IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={toggleModal}>
-        <AddIcon />
-      </IconButton>
-      <Dialog open={isModalOpen} onClose={toggleModal}>
+     
+      <Dialog open={isModalOpen} onClose={closeModal}>
         <DialogTitle>Add New Package</DialogTitle>
         <DialogContent>
           <TextField
@@ -60,16 +70,15 @@ const AddPackage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={toggleModal} color="primary">
+          <Button onClick={closeModal} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleAddPackage} color="primary">
+          <Button onClick={addPackage} color="primary">
             Add Package
           </Button>
         </DialogActions>
       </Dialog>
     </div>
-    </CustomerContextProvider>
   )
 }
 
