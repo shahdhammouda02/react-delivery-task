@@ -4,50 +4,19 @@ import {TableContainer, Paper, Table,TableHead,TableRow,TableCell,TableBody,
   IconButton, Button
 } from '@mui/material';  
 import AddIcon from '@mui/icons-material/Add';
-// import AddPackage from './AddPackage';
-import { CustomerContextProvider, useCustomerContext } from './CustomerContext';
+
+import { useCustomerContext } from './CustomerContext';
+import AddPackage from './AddPackage';
 
 const PackageList = () => { 
-  const {appData}=useCustomerContext(); 
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [newPackage, setNewPackage] = useState({
-  //   id: '',
-  //   weight: '',
-  //   customerid: '',
-  //   price: '',
-  //   shippingOrder: '',
-  // });
-
-  // const toggleModal = () => {
-  //   setIsModalOpen(!isModalOpen);
-  // };
-
-  // const handleAddPackage = () => {
-  //   const updatedPackages = [...packages, newPackage];
-  //   const sortedByShippingOrder = updatedPackages.sort((a, b) => a.shippingOrder - b.shippingOrder);
-    
-  //   setNewPackage({
-  //     id: '',
-  //     weight: '',
-  //     customerid: '',
-  //     price: '',
-  //     shippingOrder: '',
-  //   });
-    
-  //   setIsModalOpen(false);
-  //   console.log(sortedByShippingOrder);
-  // };
-
-  const {handleAddPackage } = useCustomerContext();
-  
+  const {appData}=useCustomerContext();   
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
   return (
-    <CustomerContextProvider>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table"> 
         <TableHead>
@@ -92,59 +61,13 @@ const PackageList = () => {
         </TableBody>
         </Table>     
 
-       {/* <AddPackage /> */}
 
-
-<IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={toggleModal}>
+<IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={openModal}>
         <AddIcon />
       </IconButton>
-      {/* <Dialog open={isModalOpen} onClose={toggleModal}>
-        <DialogTitle>Add New Package</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="ID"
-            fullWidth
-            value={newPackage.id}
-            onChange={(e) => setNewPackage({ ...newPackage, id: e.target.value })}
-
-          />
-          <TextField
-            label="Weight"
-            fullWidth
-            value={newPackage.weight}
-            onChange={(e) => setNewPackage({ ...newPackage, weight: e.target.value })}
-
-          />
-          <TextField
-            label="CustomerId"
-            fullWidth
-            value={newPackage.customerid}
-            onChange={(e) => setNewPackage({ ...newPackage, customerid: e.target.value })}
-          />
-          <TextField
-            label="Price"
-            fullWidth
-            value={newPackage.price}
-            onChange={(e) => setNewPackage({ ...newPackage, price: e.target.value })}
-          />
-          <TextField
-            label="Shipping Order"
-            fullWidth
-            value={newPackage.shippingOrder}
-            onChange={(e) => setNewPackage({ ...newPackage, shippingOrder: e.target.value })}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleModal} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleAddPackage} color="primary">
-            Add Package
-          </Button>
-        </DialogActions>
-      </Dialog> */}
+      <AddPackage setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}/>
+    
     </TableContainer>
-    </CustomerContextProvider>
   );
 };
 
