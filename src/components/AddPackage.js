@@ -30,6 +30,14 @@ const AddPackage = ({setIsModalOpen, isModalOpen}) => {
       closeModal(); 
     };
 
+ const handleChange = (e) => {
+      const { name, value } = e.target;
+      setNewPackage((prevPackage) => ({
+        ...prevPackage,
+        [name]: value,
+      }));
+    };
+  
     return (
     <div>
      
@@ -39,34 +47,37 @@ const AddPackage = ({setIsModalOpen, isModalOpen}) => {
           <TextField
             label="ID"
             fullWidth
+            name="id"
             value={newPackage.id}
-            onChange={(e) => setNewPackage({ ...newPackage, id: e.target.value })}
-
+            onChange={handleChange}
           />
           <TextField
             label="Weight"
             fullWidth
+            name="weight"
             value={newPackage.weight}
-            onChange={(e) => setNewPackage({ ...newPackage, weight: e.target.value })}
-
+            onChange={handleChange}
           />
           <TextField
             label="CustomerId"
             fullWidth
+            name="customerid"
             value={newPackage.customerid}
-            onChange={(e) => setNewPackage({ ...newPackage, customerid: e.target.value })}
-          />
+            onChange={handleChange}
+        />
           <TextField
             label="Price"
             fullWidth
+            name="price"
             value={newPackage.price}
-            onChange={(e) => setNewPackage({ ...newPackage, price: e.target.value })}
-          />
+            onChange={handleChange}
+        />
           <TextField
             label="Shipping Order"
             fullWidth
+            name="shippingOrder"
             value={newPackage.shippingOrder}
-            onChange={(e) => setNewPackage({ ...newPackage, shippingOrder: e.target.value })}
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
