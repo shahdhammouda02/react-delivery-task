@@ -43,7 +43,6 @@ export const CustomerContextProvider = ({children}) => {
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        // setIsLoading(false);
       }
       finally {
         setIsLoading(false);
@@ -53,42 +52,16 @@ export const CustomerContextProvider = ({children}) => {
     fetchData();
   }, []);
 
-  console.log('appData:', appData);
-
-//   useEffect(() => {
-//   fetch('/data.json')
-//     .then(response => response.json())
-//     .then((data) => {
-//       setAppData(data);
-
-//       const customerDataObj = {};
-//       data.customers.forEach(item => {
-//         customerDataObj[item.id] = item.name;
-//       });
-//       setCustomerData(customerDataObj);
-
-//       const packageDataObj = {};
-//       data.packages.forEach(item => {
-//         const customerName = customerDataObj[item.customerid];
-//         packageDataObj[item.id] = {
-//           ...item,
-//           customerName: customerName || 'not Found',
-//         };
-//       });
-//       setPackageData(packageDataObj);
-//     })
-//     .catch(error => {
-//       console.error('Error fetching data:', error);
-//     });
-// }, []);
-
 const deleteCustomer=(customer_id)=>{
   const updated=appData.customers.filter(customer=> customer.id !==customer_id);
-  setAppData({...appData, customers: updated});
+  const deletePackages=appData.packages.filter(pak=>pak.customerid !==customer_id)
+   setAppData({...appData,
+     customers: updated,
+     packages: deletePackages
+    });
 }
 
 const handleCreateInvoice = (customer_id) => {
-  
   const customer =appData.customers.find((c) => c.id === customer_id);
   const customerPackages =appData.packages.filter((pkg) => pkg.customerid === customer_id);
   const invoice = {
@@ -99,12 +72,9 @@ const handleCreateInvoice = (customer_id) => {
 
 };
 
-// console.log(appData,"000");
 const getInvoiceByCustomerid=(customer_id)=>{
   const customer =appData.customers.find((c) => c.id === parseInt(customer_id));
   const customerPackages =appData.packages.filter((pkg) => pkg.customerid ===  parseInt(customer_id));
-
-  console.log(customer_id,appData.customers,"222", appData);
   
   const invoiceId=Math.floor(Math.random()*1000)  
   const currentDate = new Date().toLocaleDateString();
