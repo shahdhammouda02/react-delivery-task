@@ -58,13 +58,20 @@ const AddPackage = ({setIsModalOpen, isModalOpen}) => {
             value={newPackage.weight}
             onChange={handleChange}
           />
-          <TextField
-            label="CustomerId"
+
+        <Select
             fullWidth
             name="customerid"
             value={newPackage.customerid}
             onChange={handleChange}
-        />
+          >
+
+            {appData.customers.map((pkgData)=>  
+              <MenuItem key={pkgData.id} value={pkgData.id}> {pkgData.name}
+              </MenuItem>
+            )}
+          </Select>
+
           <TextField
             label="Price"
             fullWidth
