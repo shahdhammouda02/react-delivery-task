@@ -9,7 +9,7 @@ import { useCustomerContext } from './CustomerContext';
 import AddPackage from './AddPackage';
 
 const PackageList = () => { 
-  const {appData}=useCustomerContext();   
+   const {appData, customerData,moveRow }=useCustomerContext();      
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -52,9 +52,22 @@ const PackageList = () => {
               <TableCell>{row.customerid}</TableCell>
               <TableCell>{row.price}</TableCell>
               <TableCell>{row.shippingOrder}</TableCell>
-              <TableCell>
-                <Button variant="contained">Delete</Button>
-                <i>Up down buttons should go here</i>
+               <TableCell>
+                {/* <i>Up down buttons should go here</i> */}
+                <Button
+                variant="contained"
+                onClick={() => moveRow(index, index - 1)} 
+                disabled={index === 0}
+              >
+                Up
+              </Button> <span></span>
+              <Button
+                variant="contained"
+                onClick={() => moveRow(index, index + 1)} 
+                disabled={index === appData.packages.length - 1}
+              >
+                Down
+              </Button>
               </TableCell>
             </TableRow>
           ))}
