@@ -12,11 +12,14 @@ export const CustomerContextProvider = ({children}) => {
   const [invoices, setInvoices] = useState([]);
   const [customerData, setCustomerData]=useState({});
   const [packageData, setPackageData]=useState({});
+  const [invoiceDataList, setInvoiceDataList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const response = await fetch('/data.json');
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -52,6 +55,7 @@ export const CustomerContextProvider = ({children}) => {
     fetchData();
   }, []);
 
+// Delete customer and its packages
 const deleteCustomer=(customer_id)=>{
   const updated=appData.customers.filter(customer=> customer.id !==customer_id);
   const deletePackages=appData.packages.filter(pak=>pak.customerid !==customer_id)
@@ -61,6 +65,7 @@ const deleteCustomer=(customer_id)=>{
     });
 }
 
+// Create Invoice
 const handleCreateInvoice = (customer_id) => {
   const customer =appData.customers.find((c) => c.id === customer_id);
   const customerPackages =appData.packages.filter((pkg) => pkg.customerid === customer_id);
@@ -72,6 +77,7 @@ const handleCreateInvoice = (customer_id) => {
 
 };
 
+// Get Invoice for customer
 const getInvoiceByCustomerid=(customer_id)=>{
   const customer =appData.customers.find((c) => c.id === parseInt(customer_id));
   const customerPackages =appData.packages.filter((pkg) => pkg.customerid ===  parseInt(customer_id));
@@ -112,9 +118,9 @@ const getInvoiceByCustomerid=(customer_id)=>{
     totalpkgWeight,
     totalpkgPrice
   }
-  
-}
+};
 
+//Add Package
   const handleAddPackage = (pkgdata) => {
     const updatedPackages = [...appData.packages, pkgdata];
     const sortedByShippingOrder = updatedPackages.sort((a, b) => a.shippingOrder - b.shippingOrder);
@@ -122,41 +128,41 @@ const getInvoiceByCustomerid=(customer_id)=>{
       ...appData,
       packages: sortedByShippingOrder
     })
-    
-    // console.log(sortedByShippingOrder);
   };
 
-
-  const getInvoiceList =  () => {
-    try {
-      // const invoiceList = await fetchDataSomehow('/data.json'); 
-
+// InvoiceList
+  const generateInvoiceDataList = () => {
+    const invoiceList = appData.customers.map((customer) => {
+      const customerPackages = appData.packages.filter(
+        (pkg) => pkg.customerid === customer.id
+      );
+  
       const calculateTotalPrice = (packages) => {
         return packages.reduce((total, pkg) => total + pkg.price, 0);
       };
-
+  
       const calculateTotalWeight = (packages) => {
         return packages.reduce((total, pkg) => total + parseFloat(pkg.weight), 0);
       };
-
-      const invoicesWithTotals = invoices.map((invoice) => ({
-        ...invoice,
-        totalpkgPrice: calculateTotalPrice(invoice.packages),
-        totalpkgWeight: calculateTotalWeight(invoice.packages),
-      }));
-
-      return invoicesWithTotals;
-    } catch (error) {
-      console.error('Error fetching invoice list:', error);
-      return [];
-    }
+  
+      const totalpkgPrice = calculateTotalPrice(customerPackages);
+      const totalpkgWeight = calculateTotalWeight(customerPackages);
+  
+      return {
+        customerName: customer.name,
+        totalpkgPrice,
+        totalpkgWeight,
+      };
+    });
+  
+    setInvoiceDataList(invoiceList);
   };
 
 
   return (
     <CustomerContext.Provider value={{
        handleAddPackage,getInvoiceByCustomerid, appData,handleCreateInvoice,deleteCustomer,
-         getInvoiceList
+          generateInvoiceDataList, invoiceDataList
       }}>
       {isLoading ? "loading...":children }
     </CustomerContext.Provider>
