@@ -20,52 +20,67 @@ const Invoice = () => {
     fetchInvoiceData();
   }, [customer_id, getInvoiceByCustomerid]);
 
-  console.log(getInvoiceByCustomerid(customer_id), "55");
-  console.log(invoiceData,".....");
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <table border={1}>
-        <tr>
-          <th>date</th>
-          <th>Customer Name</th>
-          <th>Invoice ID</th>
-          <th>Package ID</th>
-          <th>Price</th>
-          <th>3Weight</th>
-        </tr>
-
-        {invoiceData.packages&& invoiceData.packages.map((pkg, index) => (
-          <React.Fragment key={pkg.id}>
-            {index === 0 && (
-              <tr>
-                <td rowSpan={invoiceData.packages.length}>{invoiceData.currentDate}</td>
-                <td rowSpan={invoiceData.packages.length}>{invoiceData.customer.name}</td>
-                <td rowSpan={invoiceData.packages.length}>{invoiceData.invoiceId}</td>
-                <td>{pkg.package.id}</td>
-                <td>{pkg.package.price}</td>
-                <td>{pkg.package.weight}</td>
-              </tr>
-            )}
-            {index !== 0 && (
-              <tr>
-                <td>{pkg.package.id}</td>
-                <td>{pkg.package.price}</td>
-                <td>{pkg.package.weight}</td>
-              </tr>
-            )}
-          </React.Fragment>
-        ))}
-        <tr>
-          <td colSpan={3}>Total Price: {invoiceData.totalpkgPrice}</td>
-          <td colSpan={3}>Total Weight: {invoiceData.totalpkgWeight} kg </td>
-
-        </tr>
-      </table>
-         
+  return(
+    <div className='wrapper'>
+    <div className='start'>
+      <div className="part1">
+      <p>{invoiceData.currentDate}</p>
+      <p>{invoiceData.customerName}</p>
+      </div>
+      <div className="part2">
+      <h3>Invoice</h3>
+      <p>No. {invoiceData.invoiceId}</p>
+      </div>
     </div>
+    
+    <div className="packagesData">
+      <div className="package" style={{marginTop:32}}>
+        <div className="packageId">
+          <h3>ID</h3>
+        </div>
+        <div className="weight">
+          <h3>Weight</h3>
+        </div>
+        <div className="price">
+          <h3>Price</h3>
+        </div>
+        
+      </div>
+  {invoiceData.packages ? (
+    invoiceData.packages.map((pkg) => (
+      <div className="package" key={pkg.package.id}>
+        <div className="packageId">
+          <p>{pkg.package.id}</p>
+        </div>
+        <div className="weight" style={{marginLeft:-15}}>
+          <p>{pkg.package.weight}</p>
+        </div>
+        
+        <div className="price">
+          <p>{pkg.package.price}</p>
+        </div>
+      </div>
+    ))
+  ) : (
+    <p>Loading packages...</p>
+  )}
+</div>
+
+<div className="total">
+  <p>{invoiceData.totalpkgWeight} kg</p>
+  <p className='p2'>Total: {invoiceData.totalpkgPrice}</p>
+</div>
+
+    <div className='end'>
+    {invoiceData.packages ? (
+        <p>You received {invoiceData.packages.length} packages</p>
+      ) : (
+        <p>Loading packages...</p>
+      )}
+      <p>Thank you for using our services</p>
+    </div>
+  </div>
   )
 }
 
 export default Invoice
-
-
