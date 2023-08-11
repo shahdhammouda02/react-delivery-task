@@ -130,6 +130,29 @@ const getInvoiceByCustomerid=(customer_id)=>{
     })
   };
 
+// reorder the shipping order using up and down buttons on each row.
+  const updateAppData = (newAppData) => {
+    setAppData(newAppData);
+  };
+
+  const moveRow = (fromIndex, toIndex) => {
+    const updatedPackages = [...appData.packages];
+    const [movedItem] = updatedPackages.splice(fromIndex, 1);
+    updatedPackages.splice(toIndex, 0, movedItem);
+
+    const updatedPackagesWithShippingOrder = updatedPackages.map(
+      (pkg, index) => ({
+        ...pkg,
+        shippingOrder: index + 1, 
+      })
+    );
+    updateAppData({
+      ...appData,
+      packages: updatedPackagesWithShippingOrder,
+    });
+  };
+
+
 // InvoiceList
   const generateInvoiceDataList = () => {
     const invoiceList = appData.customers.map((customer) => {
@@ -162,7 +185,7 @@ const getInvoiceByCustomerid=(customer_id)=>{
   return (
     <CustomerContext.Provider value={{
        handleAddPackage,getInvoiceByCustomerid, appData,handleCreateInvoice,deleteCustomer,
-          generateInvoiceDataList, invoiceDataList
+          generateInvoiceDataList, invoiceDataList,customerData ,moveRow
       }}>
       {isLoading ? "loading...":children }
     </CustomerContext.Provider>
