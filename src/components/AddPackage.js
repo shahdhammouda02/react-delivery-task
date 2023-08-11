@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {IconButton, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField 
+import {IconButton, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField,MenuItem,Select 
 } from '@mui/material';  
 
 import {useCustomerContext } from './CustomerContext';
@@ -40,7 +40,6 @@ const AddPackage = ({setIsModalOpen, isModalOpen}) => {
   
     return (
     <div>
-     
       <Dialog open={isModalOpen} onClose={closeModal}>
         <DialogTitle>Add New Package</DialogTitle>
         <DialogContent>
@@ -65,7 +64,6 @@ const AddPackage = ({setIsModalOpen, isModalOpen}) => {
             value={newPackage.customerid}
             onChange={handleChange}
           >
-
             {appData.customers.map((pkgData)=>  
               <MenuItem key={pkgData.id} value={pkgData.id}> {pkgData.name}
               </MenuItem>
