@@ -33,13 +33,13 @@ const Invoice = () => {
       </div>
     </div>
     
-    <TableContainer component={Paper} className='table-container'>
+   <TableContainer component={Paper} className='table-container'>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Price</TableCell>
             <TableCell>Weight</TableCell>
+            <TableCell>Price</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,8 +47,8 @@ const Invoice = () => {
             invoiceData.packages.map((pkg) => (
               <TableRow key={pkg.package.id}>
                 <TableCell>{pkg.package.id}</TableCell>
-                <TableCell>{pkg.package.price}</TableCell>
                 <TableCell>{pkg.package.weight}</TableCell>
+                <TableCell>{pkg.package.price}</TableCell>
               </TableRow>
             ))
           ) : (
@@ -58,8 +58,8 @@ const Invoice = () => {
           )}
           <TableRow>
             <TableCell colSpan={1}></TableCell>
-            <TableCell>Total: {invoiceData.totalpkgPrice}</TableCell>
             <TableCell>{invoiceData.totalpkgWeight} kg</TableCell>
+            <TableCell>Total: {invoiceData.totalpkgPrice}</TableCell>
           </TableRow>
         </TableBody>
         </Table>
