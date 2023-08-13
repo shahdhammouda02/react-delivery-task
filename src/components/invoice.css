@@ -1,0 +1,33 @@
+.start{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.package{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.package p{
+    margin-left: -10px;
+    text-align: left;
+}
+.table-container{
+    margin-top: 2rem;
+}
+.end{
+    margin-top: 2rem;
+}
+
+@media print{
+    @page{
+        size:  auto;
+        margin: 0mm;
+    }
+    body{
+        margin: 0;
+    }
+}
