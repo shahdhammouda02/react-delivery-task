@@ -33,43 +33,37 @@ const Invoice = () => {
       </div>
     </div>
     
-    <div className="packagesData">
-      <div className="package" style={{marginTop:32}}>
-        <div className="packageId">
-          <h3>ID</h3>
-        </div>
-        <div className="weight">
-          <h3>Weight</h3>
-        </div>
-        <div className="price">
-          <h3>Price</h3>
-        </div>
-        
-      </div>
-  {invoiceData.packages ? (
-    invoiceData.packages.map((pkg) => (
-      <div className="package" key={pkg.package.id}>
-        <div className="packageId">
-          <p>{pkg.package.id}</p>
-        </div>
-        <div className="weight" style={{marginLeft:-15}}>
-          <p>{pkg.package.weight}</p>
-        </div>
-        
-        <div className="price">
-          <p>{pkg.package.price}</p>
-        </div>
-      </div>
-    ))
-  ) : (
-    <p>Loading packages...</p>
-  )}
-</div>
-
-<div className="total">
-  <p>{invoiceData.totalpkgWeight} kg</p>
-  <p className='p2'>Total: {invoiceData.totalpkgPrice}</p>
-</div>
+    <TableContainer component={Paper} className='table-container'>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Price</TableCell>
+            <TableCell>Weight</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {invoiceData.packages ? (
+            invoiceData.packages.map((pkg) => (
+              <TableRow key={pkg.package.id}>
+                <TableCell>{pkg.package.id}</TableCell>
+                <TableCell>{pkg.package.price}</TableCell>
+                <TableCell>{pkg.package.weight}</TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={3}>Loading packages...</TableCell>
+            </TableRow>
+          )}
+          <TableRow>
+            <TableCell colSpan={1}></TableCell>
+            <TableCell>Total: {invoiceData.totalpkgPrice}</TableCell>
+            <TableCell>{invoiceData.totalpkgWeight} kg</TableCell>
+          </TableRow>
+        </TableBody>
+        </Table>
+      </TableContainer>
 
     <div className='end'>
     {invoiceData.packages ? (
