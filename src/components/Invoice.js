@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useCustomerContext } from './CustomerContext';
+import {TableContainer, Paper, Table,TableHead,TableRow,TableCell,TableBody,
+} from '@mui/material';  
+import './invoice.css'
 
 const Invoice = () => {
   const { customer_id } = useParams();
