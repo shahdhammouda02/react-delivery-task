@@ -181,11 +181,27 @@ const getInvoiceByCustomerid=(customer_id)=>{
     setInvoiceDataList(invoiceList);
   };
 
+// Snackbar
+const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
+  const handleSnackbarOpen = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
 
   return (
     <CustomerContext.Provider value={{
        handleAddPackage,getInvoiceByCustomerid, appData,handleCreateInvoice,deleteCustomer,
-          generateInvoiceDataList, invoiceDataList,customerData ,moveRow
+          generateInvoiceDataList, invoiceDataList,customerData ,moveRow, 
+          handleSnackbarOpen,handleSnackbarClose,snackbarOpen,snackbarMessage,snackbarSeverity
       }}>
       {isLoading ? "loading...":children }
     </CustomerContext.Provider>
