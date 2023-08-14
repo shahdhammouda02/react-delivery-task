@@ -5,7 +5,7 @@ import {IconButton, Button, Dialog, DialogTitle, DialogContent, DialogActions, T
 import {useCustomerContext } from './CustomerContext';
 
 const AddPackage = ({setIsModalOpen, isModalOpen}) => {
-    const {handleAddPackage } = useCustomerContext();
+    const {handleAddPackage, appData, handleSnackbarOpen } = useCustomerContext();
     const [newPackage, setNewPackage] = useState({
       id: '',
       weight: '',
@@ -89,7 +89,10 @@ const AddPackage = ({setIsModalOpen, isModalOpen}) => {
           <Button onClick={closeModal} color="primary">
             Cancel
           </Button>
-          <Button onClick={addPackage} color="primary">
+          <Button onClick={() => {
+              addPackage();
+              handleSnackbarOpen('Added Successfully');
+            }} color="primary">
             Add Package
           </Button>
         </DialogActions>
